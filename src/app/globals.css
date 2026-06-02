@@ -1,0 +1,108 @@
+/* Google Fonts — MUST be first line */
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap");
+
+@import "tailwindcss";
+
+/* ── Refinish PHC Brand Tokens ─────────────────────────────────────── */
+@theme {
+  --color-brand: #e63c1e;
+  --color-brand-dark: #c0321a;
+  --color-brand-light: #ff5a3d;
+  --color-bg: #080808;
+  --color-bg-secondary: #0f0f0f;
+  --color-bg-tertiary: #141414;
+  --color-bg-card: #111111;
+  --color-border: #1c1c1c;
+  --color-border-light: #2a2a2a;
+  --color-text: #f0f0f0;
+  --color-text-secondary: #888888;
+  --color-text-muted: #444444;
+  --color-success: #00c896;
+  --color-warning: #f5a623;
+  --color-info: #4a9eff;
+  --color-danger: #e63c1e;
+  --color-stage-booked: #4a9eff;
+  --color-stage-received: #f5a623;
+  --color-stage-progress: #9b59b6;
+  --color-stage-quality: #e67e22;
+  --color-stage-completed: #00c896;
+  --color-stage-cancelled: #555555;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", "Fira Code", monospace;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-secondary); }
+::-webkit-scrollbar-thumb { background: var(--color-border-light); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+
+::selection { background: var(--color-brand); color: #fff; }
+
+/* ── Utilities ──────────────────────────────────────────────────────── */
+.brand-gradient {
+  background: linear-gradient(135deg, var(--color-brand) 0%, #ff6b4a 100%);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+/* ── PWA offline banner ─────────────────────────────────────────────── */
+@keyframes slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.pwa-banner { animation: slide-up 0.3s ease-out; }
+
+.offline-badge {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-warning);
+  color: #000;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 9999;
+  animation: slide-up 0.3s ease-out;
+}
+
+/* ── Kanban ─────────────────────────────────────────────────────────── */
+.kanban-column { min-height: 200px; transition: background 0.2s; }
+.kanban-column.drag-over {
+  background: rgba(230, 60, 30, 0.05);
+  border-color: var(--color-brand);
+}
