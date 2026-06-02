@@ -1,6 +1,5 @@
 "use client"
 // src/components/worker/WorkerJobList.tsx
-// Caches jobs to IndexedDB for offline access
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
@@ -9,6 +8,7 @@ import { cacheJobs } from "@/lib/offline"
 
 type Job = {
   id: string
+  reference: string
   customerName: string
   carMake: string
   carModel: string
@@ -49,12 +49,20 @@ export default function WorkerJobList({ initialJobs, workerId }: Props) {
     // Cache jobs to IndexedDB for offline access
     if (initialJobs.length > 0) {
       cacheJobs(initialJobs.map((j) => ({
-        ...j,
+        id: j.id,
+        reference: j.reference,
+        customerName: j.customerName,
         customerPhone: "",
+        carMake: j.carMake,
+        carModel: j.carModel,
+        carColour: j.carColour ?? undefined,
+        carPlate: j.carPlate ?? undefined,
+        serviceName: j.serviceName,
         serviceType: "",
         assignedWorkerId: workerId,
-        cachedAt: Date.now(),
         scheduledDate: j.scheduledDate,
+        stage: j.stage,
+        cachedAt: Date.now(),
       }))).catch(console.error)
     }
 
@@ -102,14 +110,12 @@ export default function WorkerJobList({ initialJobs, workerId }: Props) {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {sortedJobs.map((job) => (
-          <Link key={job.id} href={`/worker/jobs/${job.id}`}
-            style={{ textDecoration: "none" }}>
+          <Link key={job.id} href={`/worker/jobs/${job.id}`} style={{ textDecoration: "none" }}>
             <div style={{
               background: "#0f0f0f",
-              border: `1px solid #1c1c1c`,
+              border: "1px solid #1c1c1c",
               borderLeft: `3px solid ${STAGE_COLORS[job.stage] || "#444"}`,
               borderRadius: 12, padding: "16px",
-              transition: "border-color 0.1s",
             }}>
               {/* Stage badge */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
@@ -154,8 +160,7 @@ export default function WorkerJobList({ initialJobs, workerId }: Props) {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{
                   fontSize: 11, color: "#888",
-                  background: "#141414", padding: "3px 8px",
-                  borderRadius: 4,
+                  background: "#141414", padding: "3px 8px", borderRadius: 4,
                 }}>
                   {job.serviceName}
                 </span>
